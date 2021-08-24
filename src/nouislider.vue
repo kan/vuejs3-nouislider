@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import NoUiSlider from "nouislider";
 
 import "nouislider/dist/nouislider.min.css";
@@ -11,7 +11,7 @@ import "nouislider/dist/nouislider.min.css";
 export default /*#__PURE__*/{
   name: 'Nouislider',
   props: {
-    config: {
+    options: {
       type: Object,
       required: true,
     },
@@ -22,14 +22,22 @@ export default /*#__PURE__*/{
     const slider = ref(null);
 
     onMounted(() => {
-      NoUiSlider.create(slider.value, props.config);
+      NoUiSlider.create(slider.value, props.options);
       slider.value.noUiSlider.on('change', (values) => {
         emit('update:modelValue', values);
       });
       emit('update:modelValue', slider.value.noUiSlider.get());
     });
 
-    return { slider };
+    watch(() => props.options, () => {
+      slider.value.noUiSlider.updateOptions(props.options, true);
+    }, { deep: true });
+
+    const noUiSlider = computed(() => {
+      return slider.value.noUiSlider;
+    })
+
+    return { slider, noUiSlider };
   }
 };
 </script>
