@@ -1,0 +1,8 @@
+- config → optionのほうが良さそう
+- configの変更を検知してupdateOptionsを実行
+- destroy, reset等メソッドを実行できるようにする
+- handleの動的追加をサポート
+- Eventをvueのイベントとして受け取れるようにする
+- ドキュメント(README)の充実
+- npmモジュールとしてリリース
+- Github Actionsでのテスト
